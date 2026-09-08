@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reading Corner 📖</title>
+    <style>
+        :root {
+            --powder-pink: #F3D7E2;
+            --cream-bg: #FFF8F0;
+            --text-dark: #4A3E40;
+            --text-muted: #8A7A7C;
+            --accent-pink: #EAA9C3;
+        }
+
+        body {
+            font-family: Georgia, Cambria, "Times New Roman", Times, serif;
+            background-color: transparent;
+            margin: 0;
+            padding: 8px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .widget-container {
+            width: 100%;
+            max-width: 480px;
+            background-color: var(--cream-bg);
+            border: 1px solid rgba(243, 215, 226, 0.4);
+            border-radius: 20px;
+            padding: 24px;
+            box-sizing: border-box;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.01);
+        }
+
+        .header-title {
+            font-size: 1.4rem;
+            font-weight: normal;
+            font-style: italic;
+            color: var(--text-dark);
+            margin: 0 0 20px 0;
+            text-align: center;
+        }
+
+        /* ADHD-Friendly Timer Box */
+        .timer-box {
+            background-color: #ffffff;
+            border-radius: 12px;
+            padding: 12px;
+            text-align: center;
+            border: 1px solid rgba(243, 215, 226, 0.3);
+            margin-bottom: 20px;
+        }
+
+        .timer-title {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text-muted);
+            margin-bottom: 4px;
+        }
+
+        .timer-display {
+            font-size: 1.4rem;
+            font-weight: bold;
+            color: var(--text-dark);
+            margin-bottom: 8px;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        }
+
+        .btn-timer {
+            background-color: var(--powder-pink);
+            border: none;
+            border-radius: 8px;
+            padding: 6px 16px;
+            font-family: inherit;
+            font-size: 0.85rem;
+            color: var(--text-dark);
+            cursor: pointer;
+            font-weight: bold;
+        }
+        .btn-timer.active {
+            background-color: var(--accent-pink);
+            color: white;
+        }
+
+        /* Current Book Info Box */
+        .book-info {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            background: #ffffff;
+            padding: 16px;
+            border-radius: 12px;
+            border: 1px solid rgba(243, 215, 226, 0.2);
+        }
+
+        .book-title-display {
+            font-size: 1.15rem;
+            font-weight: bold;
+            color: var(--text-dark);
+        }
+
+        /* Satisfying Progress Slider elements */
+        .progress-container {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            margin-top: 4px;
+        }
+
+        .progress-stats {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+
+        .slider {
+            -webkit-appearance: none;
+            width: 100%;
+            height: 8px;
+            border-radius: 4px;
+            background: #f0f0f0;
+            outline: none;
+            margin: 10px 0;
+        }
+
+        .slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: var(--accent-pink);
+            cursor: pointer;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        /* Minimal Edit Inputs Box */
+        .settings-row {
+            display: flex;
+            gap: 8px;
+            margin-top: 16px;
+            border-top: 1px solid rgba(74, 62, 64, 0.08);
+            padding-top: 14px;
+        }
+
+        input {
+            border: 1px solid #ebd6da;
+            border-radius: 8px;
+            padding: 6px 10px;
+            font-size: 0.85rem;
+            font-family: inherit;
+            color: var(--text-dark);
+            outline: none;
+            background: #ffffff;
+        }
+        .input-title { flex: 2; }
+        .input-pages { flex: 1; text-align: center; }
+
+        .btn-update {
+            background: var(--powder-pink);
+            border: none;
+            border-radius: 8px;
+            padding: 0 12px;
+            font-family: inherit;
+            font-size: 0.85rem;
+            font-weight: bold;
+            color: var(--text-dark);
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+<div class="widget-container">
+    <h1 class="header-title">📖 Current Read</h1>
+
+    <!-- Focus Mode Timer block -->
+    <div class="timer-box">
+        <div class="timer-title">⏱️ Reading Focus Session</div>
+        <div class="timer-display" id="timeDisplay">00:00</div>
+        <button class="btn-timer" id="timerBtn" onclick="toggleTimer()">Start Session</button>
+    </div>
+
+    <!-- Active book stats card -->
+    <div class="book-info">
+        <div class="book-title-display" id="bookTitle">Influence</div>
+        
+        <div class="progress-container">
+            <div class="progress-stats">
+                <span id="pageProgress">Page 0 of 320</span>
+                <span id="percentProgress" style="font-weight: bold; color: var(--accent-pink);">0%</span>
+            </div>
+            <input type="range" min="0" max="320" value="0" class="slider" id="progressSlider" oninput="updateSliderProgress(this.value)">
+        </div>
+    </div>
+
+    <!-- Setup Form Area -->
+    <div class="settings-row">
+        <input type="text" id="newTitle" class="input-title" placeholder="Change book title...">
+        <input type="number" id="newPages" class="input-pages" placeholder="Pages">
+        <button class="btn-update" onclick="changeBook()">Set</button>
+    </div>
+</div>
+
+<script>
+    // Initialize standard tracking data
+    let bookData = JSON.parse(localStorage.getItem('notion_book_tracker')) || {
+        title: "Influence",
+        totalPages: 320,
+        currentPage: 28
+    };
+
+    let timerSeconds = 0;
+    let timerInterval = null;
+    let isTimerRunning = false;
+
+    function renderBook() {
+        localStorage.setItem('notion_book_tracker', JSON.stringify(bookData));
+        
+        document.getElementById('bookTitle').innerText = bookData.title;
+        
+        const slider = document.getElementById('progressSlider');
+        slider.max = bookData.totalPages;
+        slider.value = bookData.currentPage;
+
+        const percent = Math.round((bookData.currentPage / bookData.totalPages) * 100) || 0;
+        
+        document.getElementById('pageProgress').innerText = `Page ${bookData.currentPage} of ${bookData.totalPages}`;
+        document.getElementById('percentProgress').innerText = `${percent}%`;
+    }
+
+    function updateSliderProgress(val) {
+        bookData.currentPage = parseInt(val);
+        renderBook();
+    }
+
+    function changeBook() {
+        const titleIn = document.getElementById('newTitle');
+        const pagesIn = document.getElementById('newPages');
+
+        if (titleIn.value.trim()) bookData.title = titleIn.value.trim();
+        if (pagesIn.value && parseInt(pagesIn.value) > 0) {
+            bookData.totalPages = parseInt(pagesIn.value);
+            bookData.currentPage = 0; // Reset tracking slider progress for fresh book setups
+        }
+
+        titleIn.value = '';
+        pagesIn.value = '';
+        renderBook();
+    }
+
+    function toggleTimer() {
+        const btn = document.getElementById('timerBtn');
+        if (isTimerRunning) {
+            clearInterval(timerInterval);
+            btn.innerText = "Start Session";
+            btn.classList.remove('active');
+            isTimerRunning = false;
+        } else {
+            isTimerRunning = true;
+            btn.innerText = "Pause Session";
+            btn.classList.add('active');
+            timerInterval = setInterval(() => {
+                timerSeconds++;
+                const mins = String(Math.floor(timerSeconds / 60)).padStart(2, '0');
+                const secs = String(timerSeconds % 60).padStart(2, '0');
+                document.getElementById('timeDisplay').innerText = `${mins}:${secs}`;
+            }, 1000);
+        }
+    }
+
+    renderBook();
+</script>
+
+</body>
+</html>
