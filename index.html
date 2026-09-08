@@ -4,21 +4,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Reading Corner 📖</title>
-    <!-- Imports Google Font Arimo for clean look -->
-    <link rel="preconnect" href="https://googleapis.com">
-    <link rel="preconnect" href="https://gstatic.com" crossorigin>
-    <link href="https://googleapis.com/css2?family=Arimo:ital,wght@0,400..700;1,400..700&display=swap" rel="stylesheet">
     <style>
         :root {
             --powder-pink: #F8BBD0;
-            --cream-bg: #FFFBF7; 
-            --text-dark: #2C2526;  
-            --text-muted: #746264; 
+            --cream-bg: #FFFBF7; /* Sophisticated fine cream background */
+            --text-dark: #2C2526;  /* Luxury high-contrast tone */
+            --text-muted: #746264; /* Fine grey-pink shadow text */
             --accent-pink: #D4A5B8;
         }
 
         body {
-            font-family: "Arimo", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            font-family: Garamond, Baskerville, Georgia, serif;
             background-color: transparent;
             margin: 0;
             padding: 4px;
@@ -47,34 +43,35 @@
         }
 
         .header-title {
-            font-size: 0.95rem;
-            font-weight: 700;
-            letter-spacing: 0.5px;
+            font-size: 1.1rem;
+            font-weight: normal;
+            font-style: italic;
+            letter-spacing: 0.8px;
             color: var(--text-dark);
             margin: 0;
-            text-transform: uppercase;
+            text-transform: lowercase;
         }
 
-        /* Clean Date display text line block */
+        /* Clean Date display text line block matching the serif aesthetic */
         .date-line {
-            font-size: 0.75rem;
+            font-family: inherit;
+            font-size: 0.8rem;
+            font-style: italic;
             color: var(--text-muted);
-            letter-spacing: 0.3px;
+            letter-spacing: 0.5px;
             margin-bottom: 16px;
-            font-weight: 400;
+            opacity: 0.8;
         }
 
         .btn-settings-toggle {
             background: none;
             border: none;
-            font-size: 0.8rem;
-            font-family: inherit;
+            font-size: 0.9rem;
             color: var(--text-muted);
             cursor: pointer;
-            opacity: 0.6;
+            opacity: 0.5;
             padding: 2px;
             transition: opacity 0.2s;
-            font-weight: 500;
         }
         .btn-settings-toggle:hover { opacity: 1; }
 
@@ -110,9 +107,9 @@
         }
 
         .book-title-display {
-            font-size: 1.1rem;
-            font-weight: 700;
-            letter-spacing: 0.2px;
+            font-size: 1.2rem;
+            font-weight: normal;
+            letter-spacing: 0.3px;
             color: var(--text-dark);
             margin: 0;
         }
@@ -121,15 +118,16 @@
             display: flex;
             justify-content: space-between;
             font-size: 0.8rem;
+            font-style: italic;
             color: var(--text-muted);
             letter-spacing: 0.2px;
-            font-weight: 500;
         }
 
+        /* High-End Needle Slider Bar */
         .slider {
             -webkit-appearance: none;
             width: 100%;
-            height: 2px; 
+            height: 2px; /* Ultra thin luxury timeline line */
             background: #EAE3DA;
             outline: none;
             margin: 6px 0;
@@ -140,7 +138,7 @@
             width: 10px;
             height: 10px;
             border-radius: 50%;
-            background: var(--text-dark); 
+            background: var(--text-dark); /* Sophisticated sharp marker */
             cursor: pointer;
             transition: transform 0.1s;
         }
@@ -149,6 +147,7 @@
             background: var(--accent-pink);
         }
 
+        /* Elegant Dropdown Drawer Settings Panel */
         .overlay-settings-panel {
             display: none;
             position: absolute;
@@ -178,7 +177,7 @@
             background: #FDFBFA;
             box-sizing: border-box;
         }
-        input::placeholder { color: #BBB0B2; }
+        input::placeholder { font-style: italic; color: #BBB0B2; }
         .input-title { flex: 2; width: 100%; }
         .input-pages { width: 70px; text-align: center; }
         .input-url { width: 100%; }
@@ -192,7 +191,7 @@
             font-family: inherit;
             font-size: 0.8rem;
             letter-spacing: 0.5px;
-            font-weight: bold;
+            font-weight: normal;
             cursor: pointer;
             transition: background 0.2s;
         }
@@ -203,11 +202,11 @@
 
 <div class="widget-container">
     <div class="header-row">
-        <h1 class="header-title">Currently Reading</h1>
-        <button class="btn-settings-toggle" onclick="toggleSettingsPanel()">✍︎ Edit</button>
+        <h1 class="header-title">currently reading</h1>
+        <button class="btn-settings-toggle" onclick="toggleSettingsPanel()">✍︎ edit</button>
     </div>
-    <!-- Live date updates automatically via JS -->
-    <div class="date-line" id="liveDate">Loading date...</div>
+    <!-- The new live date placeholder -->
+    <div class="date-line" id="liveDate">loading date...</div>
 
     <div class="book-layout-card">
         <div class="cover-wrapper" id="coverContainer">
@@ -219,7 +218,7 @@
             
             <div style="display: flex; flex-direction: column; gap: 2px;">
                 <div class="progress-stats">
-                    <span id="pageProgress">Page 0 of 0</span>
+                    <span id="pageProgress">page 0 of 0</span>
                     <span id="percentProgress" style="color: var(--text-dark); font-weight: bold;">0%</span>
                 </div>
                 <input type="range" min="0" max="100" value="0" class="slider" id="progressSlider" oninput="updateSliderProgress(this.value)">
@@ -227,6 +226,7 @@
         </div>
     </div>
 
+    <!-- Edit Settings Overlay Drawer -->
     <div class="overlay-settings-panel" id="settingsPanel">
         <div class="input-row">
             <input type="text" id="newTitle" class="input-title" placeholder="Book title...">
@@ -238,7 +238,7 @@
 </div>
 
 <script>
-    let bookData = JSON.parse(localStorage.getItem('notion_book_arimo_v6')) || {
+    let bookData = JSON.parse(localStorage.getItem('notion_book_editorial_v7')) || {
         title: "Atomic Habits",
         totalPages: 368,
         currentPage: 47,
@@ -252,7 +252,7 @@
     }
 
     function renderBook() {
-        localStorage.setItem('notion_book_arimo_v6', JSON.stringify(bookData));
+        localStorage.setItem('notion_book_editorial_v7', JSON.stringify(bookData));
         
         document.getElementById('bookTitle').innerText = bookData.title;
         
@@ -261,7 +261,7 @@
         slider.value = bookData.currentPage;
 
         const percent = Math.round((bookData.currentPage / bookData.totalPages) * 100) || 0;
-        document.getElementById('pageProgress').innerText = `Page ${bookData.currentPage} of ${bookData.totalPages}`;
+        document.getElementById('pageProgress').innerText = `page ${bookData.currentPage} of ${bookData.totalPages}`;
         document.getElementById('percentProgress').innerText = `${percent}%`;
 
         const coverContainer = document.getElementById('coverContainer');
@@ -274,10 +274,10 @@
 
     function updateSliderProgress(val) {
         bookData.currentPage = parseInt(val);
-        localStorage.setItem('notion_book_arimo_v6', JSON.stringify(bookData));
+        localStorage.setItem('notion_book_editorial_v7', JSON.stringify(bookData));
         
         const percent = Math.round((bookData.currentPage / bookData.totalPages) * 100) || 0;
-        document.getElementById('pageProgress').innerText = `Page ${bookData.currentPage} of ${bookData.totalPages}`;
+        document.getElementById('pageProgress').innerText = `page ${bookData.currentPage} of ${bookData.totalPages}`;
         document.getElementById('percentProgress').innerText = `${percent}%`;
     }
 
@@ -292,4 +292,3 @@
         const coverIn = document.getElementById('newCoverUrl');
 
         if (titleIn.value.trim()) bookData.title = titleIn.value.trim();
-        if (pagesIn.value && parseInt(pagesIn.value) > 0) {
