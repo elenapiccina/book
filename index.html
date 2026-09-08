@@ -8,7 +8,7 @@
         :root {
             --powder-pink: #F3D7E2;
             --cream-bg: #FFF8F0;
-            --text-dark: #4A3E40;
+            --text-dark: #36302C;
             --text-muted: #8A7A7C;
             --accent-pink: #EAA9C3;
         }
@@ -42,7 +42,6 @@
         }
 
         .header-title {
-            font-family: Georgia, Cambria, "Times New Roman", Times, serif;
             font-size: 1.4rem;
             font-weight: normal;
             font-style: italic;
@@ -53,9 +52,9 @@
             padding-left: 28px;
         }
 
-        /* Clean Date display text line block matching the Serif aesthetic */
+        /* Clean Date display text line block */
         .date-line {
-            font-family: Georgia, Cambria, "Times New Roman", Times, serif;
+            font-family: inherit;
             font-size: 0.85rem;
             font-style: italic;
             color: var(--text-muted);
@@ -229,8 +228,7 @@
 
 <div class="widget-container">
     <div class="header-row">
-        <!-- Capitalized, Elegant Serif Header Title Mapping -->
-        <h1 class="header-title">📖 Current Read</h1>
+        <h1 class="header-title">📖 Current Reading</h1>
         <button class="btn-settings-toggle" onclick="toggleSettingsPanel()">⚙️</button>
     </div>
     <!-- Live date updates automatically via Javascript -->
@@ -272,7 +270,7 @@
 </div>
 
 <script>
-    let bookData = JSON.parse(localStorage.getItem('notion_book_popup_dated_serif')) || {
+    let bookData = JSON.parse(localStorage.getItem('notion_book_popup_restored')) || {
         title: "Atomic Habits",
         totalPages: 368,
         currentPage: 47,
@@ -290,7 +288,7 @@
     }
 
     function renderBook() {
-        localStorage.setItem('notion_book_popup_dated_serif', JSON.stringify(bookData));
+        localStorage.setItem('notion_book_popup_restored', JSON.stringify(bookData));
         
         document.getElementById('bookTitle').innerText = bookData.title;
         
@@ -305,3 +303,10 @@
         const coverContainer = document.getElementById('coverContainer');
         if (bookData.coverUrl && bookData.coverUrl.trim().startsWith('http')) {
             coverContainer.innerHTML = `<img src="${bookData.coverUrl}" class="cover-image" alt="Book Cover">`;
+        } else {
+            coverContainer.innerHTML = `<span class="cover-placeholder">📖</span>`;
+        }
+    }
+
+    function updateSliderProgress(val) {
+        bookData.currentPage = parseInt(val);
