@@ -17,19 +17,20 @@
             font-family: Georgia, Cambria, "Times New Roman", Times, serif;
             background-color: transparent;
             margin: 0;
-            padding: 4px;
+            padding: 8px;
             display: flex;
             justify-content: center;
         }
 
         .widget-container {
             width: 100%;
-            max-width: 440px;
+            max-width: 480px;
             background-color: var(--cream-bg);
             border: 1px solid rgba(243, 215, 226, 0.4);
-            border-radius: 16px;
-            padding: 16px;
+            border-radius: 20px;
+            padding: 24px;
             box-sizing: border-box;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.01);
             position: relative;
         }
 
@@ -37,42 +38,96 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 12px;
+            margin-bottom: 4px;
         }
 
         .header-title {
-            font-size: 1.15rem;
+            font-family: Georgia, Cambria, "Times New Roman", Times, serif;
+            font-size: 1.4rem;
             font-weight: normal;
             font-style: italic;
             color: var(--text-dark);
             margin: 0;
+            flex-grow: 1;
+            text-align: center;
+            padding-left: 28px;
+        }
+
+        /* Clean Date display text line block matching the Serif aesthetic */
+        .date-line {
+            font-family: Georgia, Cambria, "Times New Roman", Times, serif;
+            font-size: 0.85rem;
+            font-style: italic;
+            color: var(--text-muted);
+            letter-spacing: 0.3px;
+            margin-bottom: 20px;
+            text-align: center;
+            opacity: 0.8;
         }
 
         .btn-settings-toggle {
             background: none;
             border: none;
-            font-size: 1rem;
+            font-size: 1.1rem;
             cursor: pointer;
             opacity: 0.6;
-            padding: 2px;
+            padding: 4px;
         }
         .btn-settings-toggle:hover { opacity: 1; }
 
+        .timer-box {
+            background-color: #ffffff;
+            border-radius: 12px;
+            padding: 12px;
+            text-align: center;
+            border: 1px solid rgba(243, 215, 226, 0.3);
+            margin-bottom: 20px;
+        }
+
+        .timer-title {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text-muted);
+            margin-bottom: 4px;
+        }
+
+        .timer-display {
+            font-size: 1.4rem;
+            font-weight: bold;
+            color: var(--text-dark);
+            margin-bottom: 8px;
+            font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+
+        .btn-timer {
+            background-color: var(--powder-pink);
+            border: none;
+            border-radius: 8px;
+            padding: 6px 16px;
+            font-family: inherit;
+            font-size: 0.85rem;
+            color: var(--text-dark);
+            cursor: pointer;
+            font-weight: bold;
+        }
+        .btn-timer.active { background-color: var(--accent-pink); color: white; }
+
         .book-layout-card {
             display: flex;
-            gap: 14px;
+            gap: 20px;
             background: #ffffff;
-            padding: 12px;
-            border-radius: 10px;
+            padding: 16px;
+            border-radius: 12px;
             border: 1px solid rgba(243, 215, 226, 0.2);
             align-items: center;
         }
 
         .cover-wrapper {
-            width: 60px;
-            height: 85px;
+            width: 80px;
+            height: 115px;
             background: #fcf6f8;
-            border-radius: 6px;
+            border-radius: 8px;
             overflow: hidden;
             display: flex;
             align-items: center;
@@ -82,17 +137,17 @@
         }
 
         .cover-image { width: 100%; height: 100%; object-fit: cover; }
-        .cover-placeholder { font-size: 1.4rem; opacity: 0.4; }
+        .cover-placeholder { font-size: 1.8rem; opacity: 0.4; }
 
         .book-details-column {
             flex: 1;
             display: flex;
             flex-direction: column;
-            gap: 6px;
+            gap: 8px;
         }
 
         .book-title-display {
-            font-size: 1.05rem;
+            font-size: 1.15rem;
             font-weight: bold;
             color: var(--text-dark);
             margin: 0;
@@ -101,72 +156,72 @@
         .progress-stats {
             display: flex;
             justify-content: space-between;
-            font-size: 0.8rem;
+            font-size: 0.85rem;
             color: var(--text-muted);
         }
 
         .slider {
             -webkit-appearance: none;
             width: 100%;
-            height: 5px;
+            height: 6px;
             border-radius: 4px;
             background: #f5f5f5;
             outline: none;
-            margin: 2px 0;
+            margin: 4px 0;
         }
 
         .slider::-webkit-slider-thumb {
             -webkit-appearance: none;
-            width: 14px;
-            height: 14px;
+            width: 16px;
+            height: 16px;
             border-radius: 50%;
             background: var(--accent-pink);
             cursor: pointer;
         }
 
-        /* Fixed Pop-up Panel drawer */
         .overlay-settings-panel {
             display: none;
             position: absolute;
-            top: 45px;
-            left: 16px;
-            right: 16px;
+            top: 60px;
+            left: 24px;
+            right: 24px;
             background: #ffffff;
-            border-radius: 10px;
+            border-radius: 14px;
             border: 1px solid var(--powder-pink);
-            padding: 12px;
-            box-shadow: 0 8px 20px rgba(74, 62, 64, 0.12);
+            padding: 16px;
+            box-shadow: 0 10px 25px rgba(74, 62, 64, 0.15);
             z-index: 10;
             flex-direction: column;
-            gap: 8px;
+            gap: 10px;
         }
 
-        .input-row { display: flex; gap: 6px; }
+        .input-row { display: flex; gap: 8px; }
         
         input {
             border: 1px solid #ebd6da;
-            border-radius: 6px;
-            padding: 6px 10px;
-            font-size: 0.8rem;
+            border-radius: 8px;
+            padding: 8px 12px;
+            font-size: 0.85rem;
             font-family: inherit;
             color: var(--text-dark);
             outline: none;
             box-sizing: border-box;
         }
         .input-title { flex: 2; width: 100%; }
-        .input-pages { width: 70px; text-align: center; }
+        .input-pages { width: 80px; text-align: center; }
         .input-url { width: 100%; }
 
         .btn-update {
             background: var(--accent-pink);
-            color: white;
             border: none;
-            border-radius: 6px;
+            border-radius: 8px;
             padding: 8px;
             font-family: inherit;
-            font-size: 0.8rem;
+            font-size: 0.85rem;
             font-weight: bold;
+            color: white;
             cursor: pointer;
+            margin-top: 4px;
         }
     </style>
 </head>
@@ -174,8 +229,17 @@
 
 <div class="widget-container">
     <div class="header-row">
+        <!-- Capitalized, Elegant Serif Header Title Mapping -->
         <h1 class="header-title">📖 Current Read</h1>
         <button class="btn-settings-toggle" onclick="toggleSettingsPanel()">⚙️</button>
+    </div>
+    <!-- Live date updates automatically via Javascript -->
+    <div class="date-line" id="liveDate">loading date...</div>
+
+    <div class="timer-box">
+        <div class="timer-title">⏱️ Reading Focus Session</div>
+        <div class="timer-display" id="timeDisplay">00:00</div>
+        <button class="btn-timer" id="timerBtn" onclick="toggleTimer()">Start Session</button>
     </div>
 
     <div class="book-layout-card">
@@ -186,7 +250,7 @@
         <div class="book-details-column">
             <h2 class="book-title-display" id="bookTitle">Loading...</h2>
             
-            <div style="display: flex; flex-direction: column; gap: 2px;">
+            <div style="display: flex; flex-direction: column; gap: 4px;">
                 <div class="progress-stats">
                     <span id="pageProgress">Page 0 of 0</span>
                     <span id="percentProgress" style="font-weight: bold; color: var(--accent-pink);">0%</span>
@@ -196,27 +260,37 @@
         </div>
     </div>
 
-    <!-- Configuration fields window -->
     <div class="overlay-settings-panel" id="settingsPanel">
+        <div style="font-size: 0.85rem; font-weight: bold; color: var(--text-dark); margin-bottom: 4px;">Configure Book Details</div>
         <div class="input-row">
             <input type="text" id="newTitle" class="input-title" placeholder="Book title...">
             <input type="number" id="newPages" class="input-pages" placeholder="Pages">
         </div>
-        <input type="text" id="newCoverUrl" class="input-url" placeholder="Paste Cover Image URL...">
-        <button class="btn-update" onclick="changeBook()">Set New Book ➔</button>
+        <input type="text" id="newCoverUrl" class="input-url" placeholder="Paste Cover Image URL here...">
+        <button class="btn-update" onclick="changeBook()">Apply Config ➔</button>
     </div>
 </div>
 
 <script>
-    let bookData = JSON.parse(localStorage.getItem('notion_book_compact_v4')) || {
+    let bookData = JSON.parse(localStorage.getItem('notion_book_popup_dated_serif')) || {
         title: "Atomic Habits",
         totalPages: 368,
         currentPage: 47,
         coverUrl: ""
     };
 
+    let timerSeconds = 0;
+    let timerInterval = null;
+    let isTimerRunning = false;
+
+    function setLiveDate() {
+        const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+        const today = new Date();
+        document.getElementById('liveDate').innerText = today.toLocaleDateString('en-US', options);
+    }
+
     function renderBook() {
-        localStorage.setItem('notion_book_compact_v4', JSON.stringify(bookData));
+        localStorage.setItem('notion_book_popup_dated_serif', JSON.stringify(bookData));
         
         document.getElementById('bookTitle').innerText = bookData.title;
         
@@ -231,49 +305,3 @@
         const coverContainer = document.getElementById('coverContainer');
         if (bookData.coverUrl && bookData.coverUrl.trim().startsWith('http')) {
             coverContainer.innerHTML = `<img src="${bookData.coverUrl}" class="cover-image" alt="Book Cover">`;
-        } else {
-            coverContainer.innerHTML = `<span class="cover-placeholder">📖</span>`;
-        }
-    }
-
-    function updateSliderProgress(val) {
-        bookData.currentPage = parseInt(val);
-        localStorage.setItem('notion_book_compact_v4', JSON.stringify(bookData));
-        
-        const percent = Math.round((bookData.currentPage / bookData.totalPages) * 100) || 0;
-        document.getElementById('pageProgress').innerText = `Page ${bookData.currentPage} of ${bookData.totalPages}`;
-        document.getElementById('percentProgress').innerText = `${percent}%`;
-    }
-
-    function toggleSettingsPanel() {
-        const panel = document.getElementById('settingsPanel');
-        panel.style.display = (panel.style.display === 'flex') ? 'none' : 'flex';
-    }
-
-    function changeBook() {
-        const titleIn = document.getElementById('newTitle');
-        const pagesIn = document.getElementById('newPages');
-        const coverIn = document.getElementById('newCoverUrl');
-
-        if (titleIn.value.trim()) bookData.title = titleIn.value.trim();
-        if (pagesIn.value && parseInt(pagesIn.value) > 0) {
-            bookData.totalPages = parseInt(pagesIn.value);
-            bookData.currentPage = 0; 
-        }
-        if (coverIn.value.trim()) {
-            bookData.coverUrl = coverIn.value.trim();
-        }
-
-        titleIn.value = '';
-        pagesIn.value = '';
-        coverIn.value = '';
-        
-        toggleSettingsPanel();
-        renderBook();
-    }
-
-    renderBook();
-</script>
-
-</body>
-</html>
