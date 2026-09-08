@@ -42,7 +42,7 @@
             text-align: center;
         }
 
-        /* ADHD-Friendly Timer Box */
+        /* Reading Focus Tracker Session Display Container */
         .timer-box {
             background-color: #ffffff;
             border-radius: 12px;
@@ -65,7 +65,7 @@
             font-weight: bold;
             color: var(--text-dark);
             margin-bottom: 8px;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, sans-serif;
         }
 
         .btn-timer {
@@ -79,91 +79,115 @@
             cursor: pointer;
             font-weight: bold;
         }
-        .btn-timer.active {
-            background-color: var(--accent-pink);
-            color: white;
-        }
+        .btn-timer.active { background-color: var(--accent-pink); color: white; }
 
-        /* Current Book Info Box */
-        .book-info {
+        /* Dynamic Book Overview Presentation Grid Layout */
+        .book-layout-card {
             display: flex;
-            flex-direction: column;
-            gap: 12px;
+            gap: 20px;
             background: #ffffff;
             padding: 16px;
             border-radius: 12px;
             border: 1px solid rgba(243, 215, 226, 0.2);
+            align-items: center;
+        }
+
+        .cover-wrapper {
+            width: 100px;
+            height: 145px;
+            background: #fcf6f8;
+            border-radius: 8px;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid rgba(0,0,0,0.05);
+            flex-shrink: 0;
+        }
+
+        .cover-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .cover-placeholder {
+            font-size: 2rem;
+            opacity: 0.4;
+        }
+
+        .book-details-column {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
         }
 
         .book-title-display {
             font-size: 1.15rem;
             font-weight: bold;
             color: var(--text-dark);
-        }
-
-        /* Satisfying Progress Slider elements */
-        .progress-container {
-            display: flex;
-            flex-direction: column;
-            gap: 6px;
-            margin-top: 4px;
+            margin: 0;
         }
 
         .progress-stats {
             display: flex;
             justify-content: space-between;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             color: var(--text-muted);
         }
 
         .slider {
             -webkit-appearance: none;
             width: 100%;
-            height: 8px;
+            height: 6px;
             border-radius: 4px;
-            background: #f0f0f0;
+            background: #f5f5f5;
             outline: none;
-            margin: 10px 0;
+            margin: 4px 0;
         }
 
         .slider::-webkit-slider-thumb {
             -webkit-appearance: none;
-            appearance: none;
-            width: 18px;
-            height: 18px;
+            width: 16px;
+            height: 16px;
             border-radius: 50%;
             background: var(--accent-pink);
             cursor: pointer;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
         }
 
-        /* Minimal Edit Inputs Box */
-        .settings-row {
-            display: flex;
-            gap: 8px;
-            margin-top: 16px;
+        /* Compact Setup Input Form container blocks */
+        .setup-panel {
+            margin-top: 20px;
             border-top: 1px solid rgba(74, 62, 64, 0.08);
-            padding-top: 14px;
+            padding-top: 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
         }
 
+        .input-row { display: flex; gap: 8px; }
+        
         input {
             border: 1px solid #ebd6da;
             border-radius: 8px;
-            padding: 6px 10px;
+            padding: 8px 12px;
             font-size: 0.85rem;
             font-family: inherit;
             color: var(--text-dark);
             outline: none;
             background: #ffffff;
+            box-sizing: border-box;
         }
         .input-title { flex: 2; }
         .input-pages { flex: 1; text-align: center; }
+        .input-url { width: 100%; }
 
         .btn-update {
             background: var(--powder-pink);
             border: none;
             border-radius: 8px;
-            padding: 0 12px;
+            padding: 8px 16px;
             font-family: inherit;
             font-size: 0.85rem;
             font-weight: bold;
@@ -175,42 +199,50 @@
 <body>
 
 <div class="widget-container">
-    <h1 class="header-title">📖 Current Read</h1>
+    <h1 class="header-title">📖 Reading Corner</h1>
 
-    <!-- Focus Mode Timer block -->
     <div class="timer-box">
         <div class="timer-title">⏱️ Reading Focus Session</div>
         <div class="timer-display" id="timeDisplay">00:00</div>
         <button class="btn-timer" id="timerBtn" onclick="toggleTimer()">Start Session</button>
     </div>
 
-    <!-- Active book stats card -->
-    <div class="book-info">
-        <div class="book-title-display" id="bookTitle">Influence</div>
+    <!-- Layout display split grid matching requirements -->
+    <div class="book-layout-card">
+        <div class="cover-wrapper" id="coverContainer">
+            <span class="cover-placeholder">📖</span>
+        </div>
         
-        <div class="progress-container">
-            <div class="progress-stats">
-                <span id="pageProgress">Page 0 of 320</span>
-                <span id="percentProgress" style="font-weight: bold; color: var(--accent-pink);">0%</span>
+        <div class="book-details-column">
+            <h2 class="book-title-display" id="bookTitle">Loading...</h2>
+            
+            <div style="display: flex; flex-direction: column; gap: 4px;">
+                <div class="progress-stats">
+                    <span id="pageProgress">Page 0 of 0</span>
+                    <span id="percentProgress" style="font-weight: bold; color: var(--accent-pink);">0%</span>
+                </div>
+                <input type="range" min="0" max="100" value="0" class="slider" id="progressSlider" oninput="updateSliderProgress(this.value)">
             </div>
-            <input type="range" min="0" max="320" value="0" class="slider" id="progressSlider" oninput="updateSliderProgress(this.value)">
         </div>
     </div>
 
-    <!-- Setup Form Area -->
-    <div class="settings-row">
-        <input type="text" id="newTitle" class="input-title" placeholder="Change book title...">
-        <input type="number" id="newPages" class="input-pages" placeholder="Pages">
-        <button class="btn-update" onclick="changeBook()">Set</button>
+    <!-- Expanded inputs to accommodate customizable attributes mapping -->
+    <div class="setup-panel">
+        <div class="input-row">
+            <input type="text" id="newTitle" class="input-title" placeholder="Book title...">
+            <input type="number" id="newPages" class="input-pages" placeholder="Pages">
+        </div>
+        <input type="text" id="newCoverUrl" class="input-url" placeholder="Paste book cover Image URL here...">
+        <button class="btn-update" onclick="changeBook()">Set New Book ➔</button>
     </div>
 </div>
 
 <script>
-    // Initialize standard tracking data
-    let bookData = JSON.parse(localStorage.getItem('notion_book_tracker')) || {
+    let bookData = JSON.parse(localStorage.getItem('notion_book_with_cover')) || {
         title: "Influence",
         totalPages: 320,
-        currentPage: 28
+        currentPage: 28,
+        coverUrl: ""
     };
 
     let timerSeconds = 0;
@@ -218,7 +250,7 @@
     let isTimerRunning = false;
 
     function renderBook() {
-        localStorage.setItem('notion_book_tracker', JSON.stringify(bookData));
+        localStorage.setItem('notion_book_with_cover', JSON.stringify(bookData));
         
         document.getElementById('bookTitle').innerText = bookData.title;
         
@@ -227,9 +259,16 @@
         slider.value = bookData.currentPage;
 
         const percent = Math.round((bookData.currentPage / bookData.totalPages) * 100) || 0;
-        
         document.getElementById('pageProgress').innerText = `Page ${bookData.currentPage} of ${bookData.totalPages}`;
         document.getElementById('percentProgress').innerText = `${percent}%`;
+
+        // Manage dynamic cover frame layout content updates
+        const coverContainer = document.getElementById('coverContainer');
+        if (bookData.coverUrl && bookData.coverUrl.trim().startsWith('http')) {
+            coverContainer.innerHTML = `<img src="${bookData.coverUrl}" class="cover-image" alt="Book Cover">`;
+        } else {
+            coverContainer.innerHTML = `<span class="cover-placeholder">📖</span>`;
+        }
     }
 
     function updateSliderProgress(val) {
@@ -240,15 +279,19 @@
     function changeBook() {
         const titleIn = document.getElementById('newTitle');
         const pagesIn = document.getElementById('newPages');
+        const coverIn = document.getElementById('newCoverUrl');
 
         if (titleIn.value.trim()) bookData.title = titleIn.value.trim();
         if (pagesIn.value && parseInt(pagesIn.value) > 0) {
             bookData.totalPages = parseInt(pagesIn.value);
-            bookData.currentPage = 0; // Reset tracking slider progress for fresh book setups
+            bookData.currentPage = 0; 
         }
+        // Save the cover source link configuration string
+        bookData.coverUrl = coverIn.value.trim();
 
         titleIn.value = '';
         pagesIn.value = '';
+        coverIn.value = '';
         renderBook();
     }
 
@@ -266,14 +309,3 @@
             timerInterval = setInterval(() => {
                 timerSeconds++;
                 const mins = String(Math.floor(timerSeconds / 60)).padStart(2, '0');
-                const secs = String(timerSeconds % 60).padStart(2, '0');
-                document.getElementById('timeDisplay').innerText = `${mins}:${secs}`;
-            }, 1000);
-        }
-    }
-
-    renderBook();
-</script>
-
-</body>
-</html>
