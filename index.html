@@ -4,17 +4,21 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Reading Corner 📖</title>
+    <!-- Imports Google Font Arimo for clean look -->
+    <link rel="preconnect" href="https://googleapis.com">
+    <link rel="preconnect" href="https://gstatic.com" crossorigin>
+    <link href="https://googleapis.com/css2?family=Arimo:ital,wght@0,400..700;1,400..700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --powder-pink: #F3D7E2;
-            --cream-bg: #FFF8F0;
-            --text-dark: #4A3E40;
-            --text-muted: #8A7A7C;
-            --accent-pink: #EAA9C3;
+            --powder-pink: #F8BBD0;
+            --cream-bg: #FFFBF7; 
+            --text-dark: #2C2526;  
+            --text-muted: #746264; 
+            --accent-pink: #D4A5B8;
         }
 
         body {
-            font-family: Georgia, Cambria, "Times New Roman", Times, serif;
+            font-family: "Arimo", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
             background-color: transparent;
             margin: 0;
             padding: 4px;
@@ -26,9 +30,9 @@
             width: 100%;
             max-width: 440px;
             background-color: var(--cream-bg);
-            border: 1px solid rgba(243, 215, 226, 0.4);
-            border-radius: 16px;
-            padding: 16px;
+            border: 1px solid #EFEAE4;
+            border-radius: 12px;
+            padding: 20px;
             box-sizing: border-box;
             position: relative;
         }
@@ -37,63 +41,78 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 12px;
+            border-bottom: 1px solid #F3EDE6;
+            padding-bottom: 8px;
+            margin-bottom: 4px;
         }
 
         .header-title {
-            font-size: 1.15rem;
-            font-weight: normal;
-            font-style: italic;
+            font-size: 0.95rem;
+            font-weight: 700;
+            letter-spacing: 0.5px;
             color: var(--text-dark);
             margin: 0;
+            text-transform: uppercase;
+        }
+
+        /* Clean Date display text line block */
+        .date-line {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            letter-spacing: 0.3px;
+            margin-bottom: 16px;
+            font-weight: 400;
         }
 
         .btn-settings-toggle {
             background: none;
             border: none;
-            font-size: 1rem;
+            font-size: 0.8rem;
+            font-family: inherit;
+            color: var(--text-muted);
             cursor: pointer;
             opacity: 0.6;
             padding: 2px;
+            transition: opacity 0.2s;
+            font-weight: 500;
         }
         .btn-settings-toggle:hover { opacity: 1; }
 
         .book-layout-card {
             display: flex;
-            gap: 14px;
-            background: #ffffff;
-            padding: 12px;
-            border-radius: 10px;
-            border: 1px solid rgba(243, 215, 226, 0.2);
-            align-items: center;
+            gap: 18px;
+            align-items: flex-start;
         }
 
         .cover-wrapper {
-            width: 60px;
-            height: 85px;
-            background: #fcf6f8;
-            border-radius: 6px;
+            width: 64px;
+            height: 96px;
+            background: #FDFBFA;
+            border-radius: 4px;
             overflow: hidden;
             display: flex;
             align-items: center;
             justify-content: center;
-            border: 1px solid rgba(0,0,0,0.05);
+            border: 1px solid #EAE3DA;
             flex-shrink: 0;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.03);
         }
 
         .cover-image { width: 100%; height: 100%; object-fit: cover; }
-        .cover-placeholder { font-size: 1.4rem; opacity: 0.4; }
+        .cover-placeholder { font-size: 1.2rem; opacity: 0.3; }
 
         .book-details-column {
             flex: 1;
             display: flex;
             flex-direction: column;
-            gap: 6px;
+            gap: 12px;
+            padding-top: 2px;
         }
 
         .book-title-display {
-            font-size: 1.05rem;
-            font-weight: bold;
+            font-size: 1.1rem;
+            font-weight: 700;
+            letter-spacing: 0.2px;
             color: var(--text-dark);
             margin: 0;
         }
@@ -103,39 +122,44 @@
             justify-content: space-between;
             font-size: 0.8rem;
             color: var(--text-muted);
+            letter-spacing: 0.2px;
+            font-weight: 500;
         }
 
         .slider {
             -webkit-appearance: none;
             width: 100%;
-            height: 5px;
-            border-radius: 4px;
-            background: #f5f5f5;
+            height: 2px; 
+            background: #EAE3DA;
             outline: none;
-            margin: 2px 0;
+            margin: 6px 0;
         }
 
         .slider::-webkit-slider-thumb {
             -webkit-appearance: none;
-            width: 14px;
-            height: 14px;
+            width: 10px;
+            height: 10px;
             border-radius: 50%;
-            background: var(--accent-pink);
+            background: var(--text-dark); 
             cursor: pointer;
+            transition: transform 0.1s;
+        }
+        .slider::-webkit-slider-thumb:hover {
+            transform: scale(1.2);
+            background: var(--accent-pink);
         }
 
-        /* Fixed Pop-up Panel drawer */
         .overlay-settings-panel {
             display: none;
             position: absolute;
-            top: 45px;
-            left: 16px;
-            right: 16px;
+            top: 48px;
+            left: 20px;
+            right: 20px;
             background: #ffffff;
-            border-radius: 10px;
-            border: 1px solid var(--powder-pink);
-            padding: 12px;
-            box-shadow: 0 8px 20px rgba(74, 62, 64, 0.12);
+            border-radius: 8px;
+            border: 1px solid #EFEAE4;
+            padding: 14px;
+            box-shadow: 0 10px 25px rgba(44, 37, 38, 0.08);
             z-index: 10;
             flex-direction: column;
             gap: 8px;
@@ -144,39 +168,46 @@
         .input-row { display: flex; gap: 6px; }
         
         input {
-            border: 1px solid #ebd6da;
-            border-radius: 6px;
+            border: 1px solid #EAE3DA;
+            border-radius: 4px;
             padding: 6px 10px;
             font-size: 0.8rem;
             font-family: inherit;
             color: var(--text-dark);
             outline: none;
+            background: #FDFBFA;
             box-sizing: border-box;
         }
+        input::placeholder { color: #BBB0B2; }
         .input-title { flex: 2; width: 100%; }
         .input-pages { width: 70px; text-align: center; }
         .input-url { width: 100%; }
 
         .btn-update {
-            background: var(--accent-pink);
-            color: white;
+            background: var(--text-dark);
+            color: #ffffff;
             border: none;
-            border-radius: 6px;
+            border-radius: 4px;
             padding: 8px;
             font-family: inherit;
             font-size: 0.8rem;
+            letter-spacing: 0.5px;
             font-weight: bold;
             cursor: pointer;
+            transition: background 0.2s;
         }
+        .btn-update:hover { background: var(--accent-pink); }
     </style>
 </head>
 <body>
 
 <div class="widget-container">
     <div class="header-row">
-        <h1 class="header-title">📖 Current Read</h1>
-        <button class="btn-settings-toggle" onclick="toggleSettingsPanel()">⚙️</button>
+        <h1 class="header-title">Currently Reading</h1>
+        <button class="btn-settings-toggle" onclick="toggleSettingsPanel()">✍︎ Edit</button>
     </div>
+    <!-- Live date updates automatically via JS -->
+    <div class="date-line" id="liveDate">Loading date...</div>
 
     <div class="book-layout-card">
         <div class="cover-wrapper" id="coverContainer">
@@ -189,34 +220,39 @@
             <div style="display: flex; flex-direction: column; gap: 2px;">
                 <div class="progress-stats">
                     <span id="pageProgress">Page 0 of 0</span>
-                    <span id="percentProgress" style="font-weight: bold; color: var(--accent-pink);">0%</span>
+                    <span id="percentProgress" style="color: var(--text-dark); font-weight: bold;">0%</span>
                 </div>
                 <input type="range" min="0" max="100" value="0" class="slider" id="progressSlider" oninput="updateSliderProgress(this.value)">
             </div>
         </div>
     </div>
 
-    <!-- Configuration fields window -->
     <div class="overlay-settings-panel" id="settingsPanel">
         <div class="input-row">
             <input type="text" id="newTitle" class="input-title" placeholder="Book title...">
             <input type="number" id="newPages" class="input-pages" placeholder="Pages">
         </div>
-        <input type="text" id="newCoverUrl" class="input-url" placeholder="Paste Cover Image URL...">
-        <button class="btn-update" onclick="changeBook()">Set New Book ➔</button>
+        <input type="text" id="newCoverUrl" class="input-url" placeholder="Paste image link URL...">
+        <button class="btn-update" onclick="changeBook()">Update Library ➔</button>
     </div>
 </div>
 
 <script>
-    let bookData = JSON.parse(localStorage.getItem('notion_book_compact_v4')) || {
+    let bookData = JSON.parse(localStorage.getItem('notion_book_arimo_v6')) || {
         title: "Atomic Habits",
         totalPages: 368,
         currentPage: 47,
         coverUrl: ""
     };
 
+    function setLiveDate() {
+        const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+        const today = new Date();
+        document.getElementById('liveDate').innerText = today.toLocaleDateString('en-US', options).toLowerCase();
+    }
+
     function renderBook() {
-        localStorage.setItem('notion_book_compact_v4', JSON.stringify(bookData));
+        localStorage.setItem('notion_book_arimo_v6', JSON.stringify(bookData));
         
         document.getElementById('bookTitle').innerText = bookData.title;
         
@@ -238,7 +274,7 @@
 
     function updateSliderProgress(val) {
         bookData.currentPage = parseInt(val);
-        localStorage.setItem('notion_book_compact_v4', JSON.stringify(bookData));
+        localStorage.setItem('notion_book_arimo_v6', JSON.stringify(bookData));
         
         const percent = Math.round((bookData.currentPage / bookData.totalPages) * 100) || 0;
         document.getElementById('pageProgress').innerText = `Page ${bookData.currentPage} of ${bookData.totalPages}`;
@@ -257,23 +293,3 @@
 
         if (titleIn.value.trim()) bookData.title = titleIn.value.trim();
         if (pagesIn.value && parseInt(pagesIn.value) > 0) {
-            bookData.totalPages = parseInt(pagesIn.value);
-            bookData.currentPage = 0; 
-        }
-        if (coverIn.value.trim()) {
-            bookData.coverUrl = coverIn.value.trim();
-        }
-
-        titleIn.value = '';
-        pagesIn.value = '';
-        coverIn.value = '';
-        
-        toggleSettingsPanel();
-        renderBook();
-    }
-
-    renderBook();
-</script>
-
-</body>
-</html>
