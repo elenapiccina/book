@@ -17,86 +17,62 @@
             font-family: Georgia, Cambria, "Times New Roman", Times, serif;
             background-color: transparent;
             margin: 0;
-            padding: 8px;
+            padding: 4px;
             display: flex;
             justify-content: center;
         }
 
         .widget-container {
             width: 100%;
-            max-width: 480px;
+            max-width: 440px;
             background-color: var(--cream-bg);
             border: 1px solid rgba(243, 215, 226, 0.4);
-            border-radius: 20px;
-            padding: 24px;
+            border-radius: 16px;
+            padding: 16px;
             box-sizing: border-box;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.01);
+            position: relative;
+        }
+
+        .header-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
         }
 
         .header-title {
-            font-size: 1.4rem;
+            font-size: 1.15rem;
             font-weight: normal;
             font-style: italic;
             color: var(--text-dark);
-            margin: 0 0 20px 0;
-            text-align: center;
+            margin: 0;
         }
 
-        /* Reading Focus Tracker Session Display Container */
-        .timer-box {
-            background-color: #ffffff;
-            border-radius: 12px;
-            padding: 12px;
-            text-align: center;
-            border: 1px solid rgba(243, 215, 226, 0.3);
-            margin-bottom: 20px;
-        }
-
-        .timer-title {
-            font-size: 0.8rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            color: var(--text-muted);
-            margin-bottom: 4px;
-        }
-
-        .timer-display {
-            font-size: 1.4rem;
-            font-weight: bold;
-            color: var(--text-dark);
-            margin-bottom: 8px;
-            font-family: -apple-system, BlinkMacSystemFont, sans-serif;
-        }
-
-        .btn-timer {
-            background-color: var(--powder-pink);
+        .btn-settings-toggle {
+            background: none;
             border: none;
-            border-radius: 8px;
-            padding: 6px 16px;
-            font-family: inherit;
-            font-size: 0.85rem;
-            color: var(--text-dark);
+            font-size: 1rem;
             cursor: pointer;
-            font-weight: bold;
+            opacity: 0.6;
+            padding: 2px;
         }
-        .btn-timer.active { background-color: var(--accent-pink); color: white; }
+        .btn-settings-toggle:hover { opacity: 1; }
 
-        /* Dynamic Book Overview Presentation Grid Layout */
         .book-layout-card {
             display: flex;
-            gap: 20px;
+            gap: 14px;
             background: #ffffff;
-            padding: 16px;
-            border-radius: 12px;
+            padding: 12px;
+            border-radius: 10px;
             border: 1px solid rgba(243, 215, 226, 0.2);
             align-items: center;
         }
 
         .cover-wrapper {
-            width: 100px;
-            height: 145px;
+            width: 60px;
+            height: 85px;
             background: #fcf6f8;
-            border-radius: 8px;
+            border-radius: 6px;
             overflow: hidden;
             display: flex;
             align-items: center;
@@ -105,26 +81,18 @@
             flex-shrink: 0;
         }
 
-        .cover-image {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .cover-placeholder {
-            font-size: 2rem;
-            opacity: 0.4;
-        }
+        .cover-image { width: 100%; height: 100%; object-fit: cover; }
+        .cover-placeholder { font-size: 1.4rem; opacity: 0.4; }
 
         .book-details-column {
             flex: 1;
             display: flex;
             flex-direction: column;
-            gap: 12px;
+            gap: 6px;
         }
 
         .book-title-display {
-            font-size: 1.15rem;
+            font-size: 1.05rem;
             font-weight: bold;
             color: var(--text-dark);
             margin: 0;
@@ -133,65 +101,71 @@
         .progress-stats {
             display: flex;
             justify-content: space-between;
-            font-size: 0.85rem;
+            font-size: 0.8rem;
             color: var(--text-muted);
         }
 
         .slider {
             -webkit-appearance: none;
             width: 100%;
-            height: 6px;
+            height: 5px;
             border-radius: 4px;
             background: #f5f5f5;
             outline: none;
-            margin: 4px 0;
+            margin: 2px 0;
         }
 
         .slider::-webkit-slider-thumb {
             -webkit-appearance: none;
-            width: 16px;
-            height: 16px;
+            width: 14px;
+            height: 14px;
             border-radius: 50%;
             background: var(--accent-pink);
             cursor: pointer;
         }
 
-        /* Compact Setup Input Form container blocks */
-        .setup-panel {
-            margin-top: 20px;
-            border-top: 1px solid rgba(74, 62, 64, 0.08);
-            padding-top: 16px;
-            display: flex;
+        /* Fixed Pop-up Panel drawer */
+        .overlay-settings-panel {
+            display: none;
+            position: absolute;
+            top: 45px;
+            left: 16px;
+            right: 16px;
+            background: #ffffff;
+            border-radius: 10px;
+            border: 1px solid var(--powder-pink);
+            padding: 12px;
+            box-shadow: 0 8px 20px rgba(74, 62, 64, 0.12);
+            z-index: 10;
             flex-direction: column;
             gap: 8px;
         }
 
-        .input-row { display: flex; gap: 8px; }
+        .input-row { display: flex; gap: 6px; }
         
         input {
             border: 1px solid #ebd6da;
-            border-radius: 8px;
-            padding: 8px 12px;
-            font-size: 0.85rem;
+            border-radius: 6px;
+            padding: 6px 10px;
+            font-size: 0.8rem;
             font-family: inherit;
             color: var(--text-dark);
             outline: none;
-            background: #ffffff;
             box-sizing: border-box;
         }
-        .input-title { flex: 2; }
-        .input-pages { flex: 1; text-align: center; }
+        .input-title { flex: 2; width: 100%; }
+        .input-pages { width: 70px; text-align: center; }
         .input-url { width: 100%; }
 
         .btn-update {
-            background: var(--powder-pink);
+            background: var(--accent-pink);
+            color: white;
             border: none;
-            border-radius: 8px;
-            padding: 8px 16px;
+            border-radius: 6px;
+            padding: 8px;
             font-family: inherit;
-            font-size: 0.85rem;
+            font-size: 0.8rem;
             font-weight: bold;
-            color: var(--text-dark);
             cursor: pointer;
         }
     </style>
@@ -199,15 +173,11 @@
 <body>
 
 <div class="widget-container">
-    <h1 class="header-title">📖 Reading Corner</h1>
-
-    <div class="timer-box">
-        <div class="timer-title">⏱️ Reading Focus Session</div>
-        <div class="timer-display" id="timeDisplay">00:00</div>
-        <button class="btn-timer" id="timerBtn" onclick="toggleTimer()">Start Session</button>
+    <div class="header-row">
+        <h1 class="header-title">📖 Current Read</h1>
+        <button class="btn-settings-toggle" onclick="toggleSettingsPanel()">⚙️</button>
     </div>
 
-    <!-- Layout display split grid matching requirements -->
     <div class="book-layout-card">
         <div class="cover-wrapper" id="coverContainer">
             <span class="cover-placeholder">📖</span>
@@ -216,7 +186,7 @@
         <div class="book-details-column">
             <h2 class="book-title-display" id="bookTitle">Loading...</h2>
             
-            <div style="display: flex; flex-direction: column; gap: 4px;">
+            <div style="display: flex; flex-direction: column; gap: 2px;">
                 <div class="progress-stats">
                     <span id="pageProgress">Page 0 of 0</span>
                     <span id="percentProgress" style="font-weight: bold; color: var(--accent-pink);">0%</span>
@@ -226,31 +196,27 @@
         </div>
     </div>
 
-    <!-- Expanded inputs to accommodate customizable attributes mapping -->
-    <div class="setup-panel">
+    <!-- Configuration fields window -->
+    <div class="overlay-settings-panel" id="settingsPanel">
         <div class="input-row">
             <input type="text" id="newTitle" class="input-title" placeholder="Book title...">
             <input type="number" id="newPages" class="input-pages" placeholder="Pages">
         </div>
-        <input type="text" id="newCoverUrl" class="input-url" placeholder="Paste book cover Image URL here...">
+        <input type="text" id="newCoverUrl" class="input-url" placeholder="Paste Cover Image URL...">
         <button class="btn-update" onclick="changeBook()">Set New Book ➔</button>
     </div>
 </div>
 
 <script>
-    let bookData = JSON.parse(localStorage.getItem('notion_book_with_cover')) || {
-        title: "Influence",
-        totalPages: 320,
-        currentPage: 28,
+    let bookData = JSON.parse(localStorage.getItem('notion_book_compact_v4')) || {
+        title: "Atomic Habits",
+        totalPages: 368,
+        currentPage: 47,
         coverUrl: ""
     };
 
-    let timerSeconds = 0;
-    let timerInterval = null;
-    let isTimerRunning = false;
-
     function renderBook() {
-        localStorage.setItem('notion_book_with_cover', JSON.stringify(bookData));
+        localStorage.setItem('notion_book_compact_v4', JSON.stringify(bookData));
         
         document.getElementById('bookTitle').innerText = bookData.title;
         
@@ -262,7 +228,6 @@
         document.getElementById('pageProgress').innerText = `Page ${bookData.currentPage} of ${bookData.totalPages}`;
         document.getElementById('percentProgress').innerText = `${percent}%`;
 
-        // Manage dynamic cover frame layout content updates
         const coverContainer = document.getElementById('coverContainer');
         if (bookData.coverUrl && bookData.coverUrl.trim().startsWith('http')) {
             coverContainer.innerHTML = `<img src="${bookData.coverUrl}" class="cover-image" alt="Book Cover">`;
@@ -273,7 +238,16 @@
 
     function updateSliderProgress(val) {
         bookData.currentPage = parseInt(val);
-        renderBook();
+        localStorage.setItem('notion_book_compact_v4', JSON.stringify(bookData));
+        
+        const percent = Math.round((bookData.currentPage / bookData.totalPages) * 100) || 0;
+        document.getElementById('pageProgress').innerText = `Page ${bookData.currentPage} of ${bookData.totalPages}`;
+        document.getElementById('percentProgress').innerText = `${percent}%`;
+    }
+
+    function toggleSettingsPanel() {
+        const panel = document.getElementById('settingsPanel');
+        panel.style.display = (panel.style.display === 'flex') ? 'none' : 'flex';
     }
 
     function changeBook() {
@@ -286,26 +260,20 @@
             bookData.totalPages = parseInt(pagesIn.value);
             bookData.currentPage = 0; 
         }
-        // Save the cover source link configuration string
-        bookData.coverUrl = coverIn.value.trim();
+        if (coverIn.value.trim()) {
+            bookData.coverUrl = coverIn.value.trim();
+        }
 
         titleIn.value = '';
         pagesIn.value = '';
         coverIn.value = '';
+        
+        toggleSettingsPanel();
         renderBook();
     }
 
-    function toggleTimer() {
-        const btn = document.getElementById('timerBtn');
-        if (isTimerRunning) {
-            clearInterval(timerInterval);
-            btn.innerText = "Start Session";
-            btn.classList.remove('active');
-            isTimerRunning = false;
-        } else {
-            isTimerRunning = true;
-            btn.innerText = "Pause Session";
-            btn.classList.add('active');
-            timerInterval = setInterval(() => {
-                timerSeconds++;
-                const mins = String(Math.floor(timerSeconds / 60)).padStart(2, '0');
+    renderBook();
+</script>
+
+</body>
+</html>
