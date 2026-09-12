@@ -3,277 +3,805 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Reading Corner 📖</title>
+    <title>Currently Reading Glass 🤍</title>
+
+    <!-- Google Fonts: Alice Serif -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Alice&display=swap" rel="stylesheet">
+
     <style>
         :root {
-            --powder-pink: #F3D7E2;
-            --cream-bg: #FFF8F0;
-            --text-dark: #4A3E40;
-            --text-muted: #8A7A7C;
-            --accent-pink: #EAA9C3;
+            --glass-bg: rgba(255, 255, 255, 0.85);
+            --glass-border: rgba(254, 225, 231, 0.80);
+            --glass-shadow: 0 10px 30px rgba(180, 150, 160, 0.10), 0 2px 6px rgba(0, 0, 0, 0.03);
+
+            --text-dark: #332327;
+            --text-subtle: #7A6A6D;
+
+            /* Soft Pink & Berry Palette */
+            --pink-accent-bg: #FEE1E7;
+            --pink-accent-border: #F9CAD4;
+            --berry-text: #7D2D3E;
+
+            /* Card Elements */
+            --card-bg: rgba(255, 255, 255, 0.70);
+            --card-border: rgba(245, 230, 233, 0.90);
+            --input-bg: rgba(255, 255, 255, 0.95);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
         }
 
         body {
-            font-family: Georgia, Cambria, "Times New Roman", Times, serif;
-            background-color: transparent;
-            margin: 0;
-            padding: 4px;
+            font-family: 'Alice', Georgia, serif;
+            min-height: 100vh;
             display: flex;
             justify-content: center;
-        }
-
-        .widget-container {
-            width: 100%;
-            max-width: 440px;
-            background-color: var(--cream-bg);
-            border: 1px solid rgba(243, 215, 226, 0.4);
-            border-radius: 16px;
-            padding: 16px;
-            box-sizing: border-box;
+            align-items: center;
+            padding: 12px;
+            background: transparent;
+            color: var(--text-dark);
+            -webkit-font-smoothing: antialiased;
             position: relative;
+            overflow-x: hidden;
         }
 
+        /* Glass Card Container */
+        .glass-widget-card {
+            position: relative;
+            z-index: 1;
+            width: 100%;
+            max-width: 460px;
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 18px;
+            padding: 18px 20px;
+            box-shadow: var(--glass-shadow);
+            transition: transform 0.25s ease, box-shadow 0.25s ease;
+        }
+
+        .glass-widget-card:hover {
+            box-shadow: 0 14px 38px rgba(180, 150, 160, 0.14), 0 3px 10px rgba(0, 0, 0, 0.04);
+        }
+
+        /* Header Layout */
         .header-row {
             display: flex;
             justify-content: space-between;
             align-items: center;
+            border-bottom: 1px solid rgba(245, 225, 228, 0.6);
+            padding-bottom: 10px;
             margin-bottom: 12px;
         }
 
         .header-title {
-            font-size: 1.15rem;
-            font-weight: normal;
-            font-style: italic;
+            font-family: 'Alice', serif;
+            font-size: 1.02rem;
+            font-weight: 400;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
             color: var(--text-dark);
-            margin: 0;
-        }
-
-        .btn-settings-toggle {
-            background: none;
-            border: none;
-            font-size: 1rem;
-            cursor: pointer;
-            opacity: 0.6;
-            padding: 2px;
-        }
-        .btn-settings-toggle:hover { opacity: 1; }
-
-        .book-layout-card {
-            display: flex;
-            gap: 14px;
-            background: #ffffff;
-            padding: 12px;
-            border-radius: 10px;
-            border: 1px solid rgba(243, 215, 226, 0.2);
-            align-items: center;
-        }
-
-        .cover-wrapper {
-            width: 60px;
-            height: 85px;
-            background: #fcf6f8;
-            border-radius: 6px;
-            overflow: hidden;
             display: flex;
             align-items: center;
-            justify-content: center;
-            border: 1px solid rgba(0,0,0,0.05);
-            flex-shrink: 0;
-        }
-
-        .cover-image { width: 100%; height: 100%; object-fit: cover; }
-        .cover-placeholder { font-size: 1.4rem; opacity: 0.4; }
-
-        .book-details-column {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
             gap: 6px;
         }
 
-        .book-title-display {
-            font-size: 1.05rem;
-            font-weight: bold;
-            color: var(--text-dark);
-            margin: 0;
+        .heart-icon {
+            font-size: 0.95rem;
+            display: inline-block;
+            transition: transform 0.3s ease;
         }
 
-        .progress-stats {
+        .glass-widget-card:hover .heart-icon {
+            transform: scale(1.15);
+        }
+
+        .edit-toggle-btn {
+            background: rgba(255, 255, 255, 0.9);
+            border: 1px solid var(--card-border);
+            border-radius: 8px;
+            padding: 4px 10px;
+            cursor: pointer;
+            font-family: 'Alice', serif;
+            font-size: 0.78rem;
+            color: var(--text-subtle);
+            transition: all 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .edit-toggle-btn:hover {
+            background: #ffffff;
+            color: var(--berry-text);
+            border-color: var(--pink-accent-border);
+            transform: translateY(-1px);
+        }
+
+        /* Banner */
+        .banner-pink {
+            background-color: var(--pink-accent-bg);
+            color: var(--berry-text);
+            border: 1px solid var(--pink-accent-border);
+            padding: 8px 14px;
+            border-radius: 10px;
+            font-size: 0.82rem;
+            line-height: 1.35;
+            margin-bottom: 14px;
+            box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.8);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-weight: 600;
+        }
+
+        .banner-subtitle {
+            font-size: 0.78rem;
+            opacity: 0.85;
+            font-weight: 400;
+        }
+
+        .book-main-container {
+            display: flex;
+            gap: 16px;
+            align-items: center;
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 14px;
+            padding: 14px;
+            transition: border-color 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .book-main-container:hover {
+            border-color: var(--pink-accent-border);
+            box-shadow: 0 4px 14px rgba(249, 202, 212, 0.15);
+        }
+
+        /* Book Cover Container */
+        .book-cover-wrapper {
+            width: 105px;
+            height: 155px;
+            flex-shrink: 0;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 6px 16px rgba(51, 35, 39, 0.12), 0 2px 4px rgba(0,0,0,0.04);
+            background: var(--pink-accent-bg);
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid rgba(255, 255, 255, 0.6);
+        }
+
+        .book-cover-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            transition: transform 0.3s ease;
+        }
+
+        .book-cover-wrapper:hover .book-cover-img {
+            transform: scale(1.03);
+        }
+
+        /* Placeholder Cover SVG */
+        .cover-placeholder {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 10px;
+            color: var(--berry-text);
+            gap: 6px;
+        }
+
+        .cover-placeholder-icon {
+            font-size: 1.8rem;
+        }
+
+        .cover-placeholder-text {
+            font-size: 0.7rem;
+            line-height: 1.1;
+            font-weight: 600;
+            word-break: break-word;
+        }
+
+        /* Book Info & Stats Column */
+        .book-details-column {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            min-width: 0;
+        }
+
+        .book-header-info {
+            margin-bottom: 8px;
+        }
+
+        .book-title-text {
+            font-family: 'Alice', serif;
+            font-size: 1.05rem;
+            font-weight: 600;
+            color: var(--text-dark);
+            line-height: 1.25;
+            margin-bottom: 2px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .book-author-text {
+            font-size: 0.82rem;
+            color: var(--text-subtle);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        /* Badge & Progress Bar */
+        .progress-meta-row {
             display: flex;
             justify-content: space-between;
-            font-size: 0.8rem;
-            color: var(--text-muted);
+            align-items: center;
+            margin-bottom: 6px;
         }
 
-        .slider {
-            -webkit-appearance: none;
+        .pages-count-badge {
+            font-size: 0.76rem;
+            color: var(--text-subtle);
+        }
+
+        .pages-count-badge span {
+            font-weight: 600;
+            color: var(--text-dark);
+        }
+
+        .percentage-badge {
+            font-size: 0.72rem;
+            font-weight: 600;
+            color: var(--berry-text);
+            background: var(--pink-accent-bg);
+            border: 1px solid var(--pink-accent-border);
+            padding: 2px 7px;
+            border-radius: 6px;
+        }
+
+        /* Custom Progress Bar */
+        .progress-track {
             width: 100%;
-            height: 5px;
-            border-radius: 4px;
-            background: #f5f5f5;
-            outline: none;
-            margin: 2px 0;
-        }
-
-        .slider::-webkit-slider-thumb {
-            -webkit-appearance: none;
-            width: 14px;
-            height: 14px;
-            border-radius: 50%;
-            background: var(--accent-pink);
-            cursor: pointer;
-        }
-
-        /* Fixed Pop-up Panel drawer */
-        .overlay-settings-panel {
-            display: none;
-            position: absolute;
-            top: 45px;
-            left: 16px;
-            right: 16px;
-            background: #ffffff;
+            height: 9px;
+            background: rgba(245, 225, 228, 0.6);
             border-radius: 10px;
-            border: 1px solid var(--powder-pink);
-            padding: 12px;
-            box-shadow: 0 8px 20px rgba(74, 62, 64, 0.12);
-            z-index: 10;
-            flex-direction: column;
+            overflow: hidden;
+            margin-bottom: 8px;
+            border: 1px solid rgba(249, 202, 212, 0.5);
+            position: relative;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #F9CAD4 0%, #E89CAE 100%);
+            border-radius: 10px;
+            width: 0%;
+            transition: width 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+
+        .pages-remaining-text {
+            font-size: 0.74rem;
+            color: var(--text-subtle);
+            margin-bottom: 10px;
+            font-style: italic;
+        }
+
+        .quick-updater-row {
+            display: flex;
+            align-items: center;
             gap: 8px;
         }
 
-        .input-row { display: flex; gap: 6px; }
-        
-        input {
-            border: 1px solid #ebd6da;
-            border-radius: 6px;
+        .quick-btn {
+            flex: 1;
+            font-family: 'Alice', serif;
+            font-size: 0.78rem;
+            background: rgba(255, 255, 255, 0.95);
+            border: 1px solid var(--pink-accent-border);
+            color: var(--berry-text);
+            border-radius: 7px;
             padding: 6px 10px;
-            font-size: 0.8rem;
-            font-family: inherit;
-            color: var(--text-dark);
-            outline: none;
-            box-sizing: border-box;
-        }
-        .input-title { flex: 2; width: 100%; }
-        .input-pages { width: 70px; text-align: center; }
-        .input-url { width: 100%; }
-
-        .btn-update {
-            background: var(--accent-pink);
-            color: white;
-            border: none;
-            border-radius: 6px;
-            padding: 8px;
-            font-family: inherit;
-            font-size: 0.8rem;
-            font-weight: bold;
             cursor: pointer;
+            transition: all 0.2s ease;
+            user-select: none;
+            font-weight: 600;
+            text-align: center;
+            box-shadow: 0 1px 3px rgba(180, 150, 160, 0.08);
+        }
+
+        .quick-btn:hover {
+            background: var(--pink-accent-bg);
+            border-color: var(--pink-accent-border);
+            color: var(--berry-text);
+            transform: translateY(-1px);
+            box-shadow: 0 3px 8px rgba(249, 202, 212, 0.25);
+        }
+
+        .quick-btn:active {
+            transform: scale(0.96);
+        }
+
+        /* Edit Panel Drawer */
+        .edit-panel {
+            display: none;
+            margin-top: 14px;
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 12px;
+            padding: 14px;
+            gap: 10px;
+            flex-direction: column;
+            animation: fadeIn 0.25s ease;
+        }
+
+        .edit-panel.active {
+            display: flex;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-4px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .edit-group {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .edit-label {
+            font-size: 0.76rem;
+            color: var(--text-subtle);
+            font-weight: 600;
+        }
+
+        .edit-input {
+            font-family: 'Alice', serif;
+            font-size: 0.85rem;
+            color: var(--text-dark);
+            background: var(--input-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 7px;
+            padding: 6px 10px;
+            outline: none;
+            transition: border-color 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .edit-input:focus {
+            border-color: var(--pink-accent-border);
+            box-shadow: 0 0 0 2px rgba(249, 202, 212, 0.4);
+        }
+
+        .edit-grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+
+        .cover-upload-row {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .file-upload-btn {
+            font-family: 'Alice', serif;
+            font-size: 0.76rem;
+            background: var(--pink-accent-bg);
+            color: var(--berry-text);
+            border: 1px solid var(--pink-accent-border);
+            border-radius: 7px;
+            padding: 6px 10px;
+            cursor: pointer;
+            white-space: nowrap;
+            transition: all 0.2s ease;
+        }
+
+        .file-upload-btn:hover {
+            background: #FAD3DC;
+        }
+
+        .file-input-hidden {
+            display: none;
+        }
+
+        .save-edit-btn {
+            font-family: 'Alice', serif;
+            font-size: 0.82rem;
+            font-weight: 600;
+            background: var(--pink-accent-bg);
+            color: var(--berry-text);
+            border: 1px solid var(--pink-accent-border);
+            border-radius: 8px;
+            padding: 8px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            margin-top: 4px;
+        }
+
+        .save-edit-btn:hover {
+            background: #FAD3DC;
+            transform: translateY(-1px);
+        }
+
+        /* Toast Popup Overlay */
+        .toast-msg {
+            position: absolute;
+            bottom: -30px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(51, 35, 39, 0.92);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            color: #ffffff;
+            font-size: 0.74rem;
+            padding: 4px 12px;
+            border-radius: 10px;
+            opacity: 0;
+            pointer-events: none;
+            transition: all 0.25s ease;
+            white-space: nowrap;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.12);
+        }
+
+        .toast-msg.show {
+            opacity: 1;
+            bottom: -22px;
         }
     </style>
 </head>
 <body>
 
-<div class="widget-container">
+<div class="glass-widget-card">
+    <!-- Header with Edit Toggle -->
     <div class="header-row">
-        <h1 class="header-title">📖 Current Read</h1>
-        <button class="btn-settings-toggle" onclick="toggleSettingsPanel()">⚙️</button>
+        <h1 class="header-title">
+            CURRENTLY READING <span class="heart-icon">🤍</span>
+        </h1>
+        <button class="edit-toggle-btn" id="editToggleBtn" onclick="window.toggleEditPanel()">
+            ✏️ Edit Details
+        </button>
     </div>
 
-    <div class="book-layout-card">
-        <div class="cover-wrapper" id="coverContainer">
-            <span class="cover-placeholder">📖</span>
+    <!-- Soft Pink Guidance Banner -->
+    <div class="banner-pink">
+        <span>🤍 Reading Companion</span>
+        <span class="banner-subtitle">Track your steady progress</span>
+    </div>
+
+    <!-- Main Book Display -->
+    <div class="book-main-container">
+        <!-- Left Column: Book Cover -->
+        <div class="book-cover-wrapper" id="coverWrapper">
+            <!-- Dynamically populated cover image or fallback placeholder -->
         </div>
-        
+
+        <!-- Right Column: Book Metadata & Stats -->
         <div class="book-details-column">
-            <h2 class="book-title-display" id="bookTitle">Loading...</h2>
-            
-            <div style="display: flex; flex-direction: column; gap: 2px;">
-                <div class="progress-stats">
-                    <span id="pageProgress">Page 0 of 0</span>
-                    <span id="percentProgress" style="font-weight: bold; color: var(--accent-pink);">0%</span>
+            <div class="book-header-info">
+                <div class="book-title-text" id="displayTitle">Atomic Habits</div>
+                <div class="book-author-text" id="displayAuthor">by James Clear</div>
+            </div>
+
+            <!-- Page Count & Badge -->
+            <div class="progress-meta-row">
+                <div class="pages-count-badge">
+                    <span id="displayCurrentPage">185</span> / <span id="displayTotalPages">320</span> pages
                 </div>
-                <input type="range" min="0" max="100" value="0" class="slider" id="progressSlider" oninput="updateSliderProgress(this.value)">
+                <div class="percentage-badge" id="displayPercent">58%</div>
+            </div>
+
+            <!-- Gradient Progress Bar -->
+            <div class="progress-track">
+                <div class="progress-fill" id="progressFill" style="width: 58%;"></div>
+            </div>
+
+            <!-- Pages Remaining -->
+            <div class="pages-remaining-text" id="displayRemaining">
+                135 pages remaining
+            </div>
+
+            <!-- Streamlined Quick Increment Buttons (+10, +20) -->
+            <div class="quick-updater-row">
+                <button class="quick-btn" onclick="window.changePage(10)" title="Add 10 pages">+10 pages</button>
+                <button class="quick-btn" onclick="window.changePage(20)" title="Add 20 pages">+20 pages</button>
             </div>
         </div>
     </div>
 
-    <!-- Configuration fields window -->
-    <div class="overlay-settings-panel" id="settingsPanel">
-        <div class="input-row">
-            <input type="text" id="newTitle" class="input-title" placeholder="Book title...">
-            <input type="number" id="newPages" class="input-pages" placeholder="Pages">
+    <!-- Inline Edit Drawer Panel -->
+    <div class="edit-panel" id="editPanel">
+        <div class="edit-group">
+            <label class="edit-label">Book Title</label>
+            <input type="text" class="edit-input" id="inputTitle" placeholder="Enter book title..." />
         </div>
-        <input type="text" id="newCoverUrl" class="input-url" placeholder="Paste Cover Image URL...">
-        <button class="btn-update" onclick="changeBook()">Set New Book ➔</button>
+
+        <div class="edit-group">
+            <label class="edit-label">Author Name</label>
+            <input type="text" class="edit-input" id="inputAuthor" placeholder="Enter author name..." />
+        </div>
+
+        <div class="edit-grid-2">
+            <div class="edit-group">
+                <label class="edit-label">Current Page</label>
+                <input type="number" class="edit-input" id="inputCurrentPage" min="0" placeholder="0" />
+            </div>
+            <div class="edit-group">
+                <label class="edit-label">Total Pages</label>
+                <input type="number" class="edit-input" id="inputTotalPages" min="1" placeholder="100" />
+            </div>
+        </div>
+
+        <div class="edit-group">
+            <label class="edit-label">Book Cover Image URL / File</label>
+            <div class="cover-upload-row">
+                <input type="text" class="edit-input" id="inputCoverUrl" style="flex-grow:1;" placeholder="https://..." />
+                <button class="file-upload-btn" onclick="document.getElementById('fileInput').click()">Upload File</button>
+                <input type="file" id="fileInput" class="file-input-hidden" accept="image/*" onchange="window.handleFileUpload(event)" />
+            </div>
+        </div>
+
+        <button class="save-edit-btn" onclick="window.saveBookEdits()">✨ Save Book Details</button>
     </div>
+
+    <!-- Toast Overlay -->
+    <div class="toast-msg" id="toastMsg">Progress updated ✨</div>
 </div>
 
-<script>
-    let bookData = JSON.parse(localStorage.getItem('notion_book_compact_v4')) || {
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+    import { getAuth, signInAnonymously, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+    import { getFirestore, doc, setDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+    const STORAGE_KEY = 'notion_currently_reading_glass_v2';
+
+    // Default book data structure
+    let bookData = {
         title: "Atomic Habits",
-        totalPages: 368,
-        currentPage: 47,
-        coverUrl: ""
+        author: "James Clear",
+        currentPage: 185,
+        totalPages: 320,
+        coverUrl: "https://images-na.ssl-images-amazon.com/images/S/compressed.photo.goodreads.com/books/1655988385i/2767052.jpg"
     };
 
-    function renderBook() {
-        localStorage.setItem('notion_book_compact_v4', JSON.stringify(bookData));
-        
-        document.getElementById('bookTitle').innerText = bookData.title;
-        
-        const slider = document.getElementById('progressSlider');
-        slider.max = bookData.totalPages;
-        slider.value = bookData.currentPage;
+    let db = null;
+    let auth = null;
+    let userDocRef = null;
 
-        const percent = Math.round((bookData.currentPage / bookData.totalPages) * 100) || 0;
-        document.getElementById('pageProgress').innerText = `Page ${bookData.currentPage} of ${bookData.totalPages}`;
-        document.getElementById('percentProgress').innerText = `${percent}%`;
+    // Firebase configurations
+    const appId = typeof __app_id !== 'undefined' ? __app_id : 'currently-reading-glass';
+    const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : null;
+    const initialAuthToken = typeof __initial_auth_token !== 'undefined' ? __initial_auth_token : null;
 
-        const coverContainer = document.getElementById('coverContainer');
-        if (bookData.coverUrl && bookData.coverUrl.trim().startsWith('http')) {
-            coverContainer.innerHTML = `<img src="${bookData.coverUrl}" class="cover-image" alt="Book Cover">`;
+    function safeLoadLocal() {
+        try {
+            const raw = localStorage.getItem(STORAGE_KEY);
+            if (raw) {
+                bookData = { ...bookData, ...JSON.parse(raw) };
+            }
+        } catch (e) {
+            console.warn("LocalStorage restricted in iframe. Operating in-memory state.", e);
+        }
+    }
+
+    function safeSaveLocal() {
+        try {
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(bookData));
+        } catch (e) {
+            console.warn("Unable to write LocalStorage in iframe context.", e);
+        }
+    }
+
+    async function saveState() {
+        safeSaveLocal();
+        if (db && userDocRef && auth?.currentUser) {
+            try {
+                await setDoc(userDocRef, {
+                    bookData: bookData,
+                    updatedAt: new Date().toISOString()
+                }, { merge: true });
+            } catch (err) {
+                console.warn("Firestore save error:", err);
+            }
+        }
+    }
+
+    async function initFirebase() {
+        if (!firebaseConfig) return;
+        try {
+            const app = initializeApp(firebaseConfig);
+            db = getFirestore(app);
+            auth = getAuth(app);
+
+            if (initialAuthToken) {
+                await signInWithCustomToken(auth, initialAuthToken);
+            } else {
+                await signInAnonymously(auth);
+            }
+
+            const user = auth.currentUser;
+            if (user) {
+                userDocRef = doc(db, 'artifacts', appId, 'users', user.uid, 'data', 'currentlyReading');
+                
+                onSnapshot(userDocRef, (snapshot) => {
+                    if (snapshot.exists()) {
+                        const data = snapshot.data();
+                        if (data.bookData) {
+                            bookData = { ...bookData, ...data.bookData };
+                            updateUI();
+                        }
+                    }
+                }, (error) => {
+                    console.warn("Firestore snapshot error:", error);
+                });
+            }
+        } catch (e) {
+            console.warn("Firebase initialization skipped. Using local state.", e);
+        }
+    }
+
+    function updateUI() {
+        // Text Fields
+        document.getElementById('displayTitle').innerText = bookData.title || "Untitled Book";
+        document.getElementById('displayAuthor').innerText = bookData.author ? `by ${bookData.author}` : "Unknown Author";
+
+        // Page calculations
+        const cur = Math.max(0, parseInt(bookData.currentPage) || 0);
+        const total = Math.max(1, parseInt(bookData.totalPages) || 1);
+        const validCur = Math.min(cur, total);
+
+        const percent = Math.min(100, Math.round((validCur / total) * 100));
+        const remaining = Math.max(0, total - validCur);
+
+        document.getElementById('displayCurrentPage').innerText = validCur;
+        document.getElementById('displayTotalPages').innerText = total;
+        document.getElementById('displayPercent').innerText = `${percent}%`;
+        document.getElementById('progressFill').style.width = `${percent}%`;
+
+        if (percent === 100) {
+            document.getElementById('displayRemaining').innerText = "🎉 Book completed!";
         } else {
-            coverContainer.innerHTML = `<span class="cover-placeholder">📖</span>`;
+            document.getElementById('displayRemaining').innerText = `${remaining} pages remaining`;
+        }
+
+        // Render Book Cover with error fallback
+        const wrapper = document.getElementById('coverWrapper');
+        wrapper.innerHTML = '';
+
+        if (bookData.coverUrl && bookData.coverUrl.trim() !== '') {
+            const img = document.createElement('img');
+            img.className = 'book-cover-img';
+            img.src = bookData.coverUrl;
+            img.alt = bookData.title;
+
+            img.onerror = () => {
+                renderPlaceholderCover(wrapper, bookData.title);
+            };
+
+            wrapper.appendChild(img);
+        } else {
+            renderPlaceholderCover(wrapper, bookData.title);
         }
     }
 
-    function updateSliderProgress(val) {
-        bookData.currentPage = parseInt(val);
-        localStorage.setItem('notion_book_compact_v4', JSON.stringify(bookData));
-        
-        const percent = Math.round((bookData.currentPage / bookData.totalPages) * 100) || 0;
-        document.getElementById('pageProgress').innerText = `Page ${bookData.currentPage} of ${bookData.totalPages}`;
-        document.getElementById('percentProgress').innerText = `${percent}%`;
+    function renderPlaceholderCover(container, title) {
+        container.innerHTML = `
+            <div class="cover-placeholder">
+                <span class="cover-placeholder-icon">📚</span>
+                <span class="cover-placeholder-text">${escapeHtml(title || 'Currently Reading')}</span>
+            </div>
+        `;
     }
 
-    function toggleSettingsPanel() {
-        const panel = document.getElementById('settingsPanel');
-        panel.style.display = (panel.style.display === 'flex') ? 'none' : 'flex';
+    function escapeHtml(text) {
+        return text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
     }
 
-    function changeBook() {
-        const titleIn = document.getElementById('newTitle');
-        const pagesIn = document.getElementById('newPages');
-        const coverIn = document.getElementById('newCoverUrl');
+    window.toggleEditPanel = function() {
+        const panel = document.getElementById('editPanel');
+        const btn = document.getElementById('editToggleBtn');
+        const isActive = panel.classList.contains('active');
 
-        if (titleIn.value.trim()) bookData.title = titleIn.value.trim();
-        if (pagesIn.value && parseInt(pagesIn.value) > 0) {
-            bookData.totalPages = parseInt(pagesIn.value);
-            bookData.currentPage = 0; 
+        if (isActive) {
+            panel.classList.remove('active');
+            btn.innerText = '✏️ Edit Details';
+        } else {
+            // Pre-fill input values
+            document.getElementById('inputTitle').value = bookData.title;
+            document.getElementById('inputAuthor').value = bookData.author;
+            document.getElementById('inputCurrentPage').value = bookData.currentPage;
+            document.getElementById('inputTotalPages').value = bookData.totalPages;
+            document.getElementById('inputCoverUrl').value = bookData.coverUrl;
+
+            panel.classList.add('active');
+            btn.innerText = '✖ Close Panel';
         }
-        if (coverIn.value.trim()) {
-            bookData.coverUrl = coverIn.value.trim();
-        }
+    };
 
-        titleIn.value = '';
-        pagesIn.value = '';
-        coverIn.value = '';
-        
-        toggleSettingsPanel();
-        renderBook();
+    window.saveBookEdits = function() {
+        const title = document.getElementById('inputTitle').value.trim();
+        const author = document.getElementById('inputAuthor').value.trim();
+        const curPage = parseInt(document.getElementById('inputCurrentPage').value) || 0;
+        const totalPage = parseInt(document.getElementById('inputTotalPages').value) || 1;
+        const coverUrl = document.getElementById('inputCoverUrl').value.trim();
+
+        bookData.title = title || "Untitled Book";
+        bookData.author = author;
+        bookData.totalPages = Math.max(1, totalPage);
+        bookData.currentPage = Math.min(bookData.totalPages, Math.max(0, curPage));
+        bookData.coverUrl = coverUrl;
+
+        saveState();
+        updateUI();
+        window.toggleEditPanel();
+        showToast("Book details saved! ✨");
+    };
+
+    // Quick Page Increments (+10, +20)
+    window.changePage = function(delta) {
+        const total = Math.max(1, parseInt(bookData.totalPages) || 1);
+        let cur = parseInt(bookData.currentPage) || 0;
+        cur = Math.min(total, Math.max(0, cur + delta));
+
+        bookData.currentPage = cur;
+        saveState();
+        updateUI();
+
+        showToast(`+${delta} pages logged 📖`);
+    };
+
+    // File Upload Local Image Handler
+    window.handleFileUpload = function(event) {
+        const file = event.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                document.getElementById('inputCoverUrl').value = e.target.result;
+                showToast("Cover image attached! 📷");
+            };
+            reader.readAsDataURL(file);
+        }
+    };
+
+    function showToast(message) {
+        const toast = document.getElementById('toastMsg');
+        if (toast) {
+            toast.innerText = message;
+            toast.classList.add('show');
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 2200);
+        }
     }
 
-    renderBook();
+    async function initWidget() {
+        safeLoadLocal();
+        await initFirebase();
+        updateUI();
+    }
+
+    // Resilience for GitHub Pages & Notion Embeds
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initWidget);
+    } else {
+        initWidget();
+    }
 </script>
-
 </body>
 </html>
